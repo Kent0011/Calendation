@@ -9,8 +9,8 @@ class UsersController < ApplicationController
   end
 
   def calendar
-    @year = Integer(params[:year]) || Date.today.year
-    @month = Integer(params[:month]) || Date.today.month
+    @year = (params[:year] || Date.today.year).to_i
+    @month = (params[:month] || Date.today.month).to_i
 
     client = Notion::Client.new(token: @user.notion_api_key)
     sorts = [
