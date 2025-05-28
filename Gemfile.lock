@@ -68,6 +68,8 @@ GEM
       tzinfo (~> 2.0)
     addressable (2.8.7)
       public_suffix (>= 2.0.2, < 7.0)
+    base64 (0.2.0)
+    bcrypt (3.1.20)
     bindex (0.8.1)
     bootsnap (1.18.4)
       msgpack (~> 1.2)
@@ -88,8 +90,19 @@ GEM
       irb (~> 1.10)
       reline (>= 0.3.8)
     erubi (1.13.0)
+    faraday (2.8.1)
+      base64
+      faraday-net_http (>= 2.0, < 3.1)
+      ruby2_keywords (>= 0.0.4)
+    faraday-mashify (1.0.0)
+      faraday (~> 2.0)
+      hashie
+    faraday-multipart (1.1.0)
+      multipart-post (~> 2.0)
+    faraday-net_http (3.0.2)
     globalid (1.2.1)
       activesupport (>= 6.1)
+    hashie (5.0.0)
     i18n (1.14.6)
       concurrent-ruby (~> 1.0)
     importmap-rails (2.0.3)
@@ -118,6 +131,7 @@ GEM
     mini_portile2 (2.8.8)
     minitest (5.25.1)
     msgpack (1.7.5)
+    multipart-post (2.4.1)
     mysql2 (0.5.6)
     net-imap (0.4.18)
       date
@@ -132,6 +146,11 @@ GEM
     nokogiri (1.15.6)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
+    notion-ruby-client (1.2.2)
+      faraday (>= 2.0)
+      faraday-mashify (>= 0.1.1)
+      faraday-multipart (>= 1.0.4)
+      hashie (~> 5)
     psych (5.2.0)
       stringio
     public_suffix (5.1.1)
@@ -176,6 +195,7 @@ GEM
     reline (0.5.11)
       io-console (~> 0.5)
     rexml (3.3.9)
+    ruby2_keywords (0.0.5)
     rubyzip (2.3.2)
     selenium-webdriver (4.9.0)
       rexml (~> 3.2, >= 3.2.5)
@@ -219,12 +239,14 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bcrypt (~> 3.1.7)
   bootsnap
   capybara
   debug
   importmap-rails
   jbuilder
   mysql2 (~> 0.5)
+  notion-ruby-client (~> 1.2, >= 1.2.2)
   puma (~> 5.0)
   rails (~> 7.0.8, >= 7.0.8.6)
   selenium-webdriver

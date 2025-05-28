@@ -1,0 +1,154 @@
+<div class="calendar-container m-5">
+  <h1 class="text-center">Calendation</h1>
+
+  <% if @events.present? %>
+    <% current_month = Date.today.beginning_of_month %>
+    
+    <div class="calendar">
+      <div class="d-flex justify-content-center align-items-center mb-3">
+        <button class="btn btn-outline-secondary me-3" onclick="changeMonth(-1)">前月</button>
+        <h4 class="text-center mb-0" id="currentMonthDisplay"><%= current_month.strftime("%Y年%m月") %></h4>
+        <button class="btn btn-outline-secondary ms-3" onclick="changeMonth(1)">次月</button>
+      </div>
+      
+      <div class="table-responsive">
+        <table class="table table-bordered" style="table-layout: fixed;">
+          <thead>
+            <tr>
+              <th>Sun</th>
+              <th>Mon</th>
+              <th>Tue</th>
+              <th>Wed</th>
+              <th>Thu</th>
+              <th>Fri</th>
+              <th>Sat</th>
+            </tr>
+          </thead>
+          <tbody id="calendarBody">
+            <% date = current_month.beginning_of_month.beginning_of_week(:sunday) %>
+            <% while date <= current_month.end_of_month.end_of_week(:sunday) do %>
+              <tr>
+                <% 7.times do %>
+                  <td class="<%= 'text-muted' if date.month != current_month.month %>">
+                    <div class="date"><%= date.day %></div>
+                    <div class="events">
+                      <% @events.each do |event| %>
+                        <% if event.start_datetime.to_date == date %>
+                          <div class="event <%= event.category %>">
+                            <% if event.url.present? %>
+                              <%= link_to truncate(event.name), event.url, class: 'event-link', target: '_blank', title: event.name %>
+                            <% else %>
+                              <span title="<%= event.name %>"><%= truncate(event.name) %></span>
+                            <% end %>
+                          </div>
+                        <% end %>
+                      <% end %>
+                    </div>
+                  </td>
+                  <% date = date.tomorrow %>
+                <% end %>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  <% else %>
+    <div class="alert alert-info">
+      表示できるイベントがありません。
+    </div>
+  <% end %>
+</div>
+
+<style>
+.calendar td {
+  height: 100px;
+  vertical-align: top;
+  padding: 5px;
+}
+.date {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+.event {
+  font-size: 0.8em;
+  margin-bottom: 2px;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  /* text-overflow: ellipsis; */
+  padding: 2px 5px;
+  border-radius: 3px;
+  text-align: center;
+}
+.event-link {
+  text-decoration: none;
+  color: inherit;
+  width: 100%;
+  display: block;
+  height: 100%;
+}
+/* カテゴリー別の色設定 */
+.blue {
+  background-color: rgba(165, 217, 245, 0.3);
+  color: #185CB6FF;
+  font-weight: bold;
+}
+.red {
+  background-color: rgba(255, 181, 181, 0.3);
+  color: #D62728FF;
+  font-weight: bold;
+}
+.green {
+  background-color: rgba(181, 255, 181, 0.3);
+  color: #208020FF;
+  font-weight: bold;
+}
+.purple {
+  background-color: rgba(229, 181, 255, 0.3);
+  color: #662E91FF;
+  font-weight: bold;
+}
+.yellow {
+  background-color: rgba(255, 243, 181, 0.3);
+  color: #F59F0BFF;
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  th{
+    font-size: 0.5em;
+    text-align: center;
+  }
+  .calendar-container {
+    margin: 1rem !important;
+  }
+  .calendar td {
+    height: 80px;
+    padding: 2px;
+  }
+  .date {
+    font-size: 0.8em;
+  }
+  .event {
+    font-size: 0.4em;
+    padding: 1px;
+  }
+}
+</style>
+
+<script>
+let currentDate = new Date();
+
+function changeMonth(offset) {
+  currentDate.setMonth(currentDate.getMonth() + offset);
+  
+  // 月表示を更新
+  const year = currentDate.getFullYear();
+  const month = currentDate.getMonth() + 1;
+  document.getElementById('currentMonthDisplay').textContent = `${year}年${month}月`;
+  
+  // カレンダー本体を更新
+  // TODO: カレンダーHTMLを生成して更新する処理を実装
+}
+</script>
