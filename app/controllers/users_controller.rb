@@ -12,24 +12,7 @@ class UsersController < ApplicationController
     @year = (params[:year] || Date.today.year).to_i
     @month = (params[:month] || Date.today.month).to_i
 
-    client = Notion::Client.new(token: @user.notion_api_key)
-    sorts = [
-      {
-        'property': 'Date',
-        'direction': 'ascending'
-      }
-    ]
-    begin
-      response = client.database_query(database_id: @user.notion_database_id, sorts: sorts)
-    rescue => e
-      flash.now[:alert] = 'Notionデータベースの取得に失敗しました'
-      @events = []
-    end
-    @events = []
-    @res = response.results.map do |page|
-      @ev = Event.new(name: page.properties.Title.title.first.text.content, start_datetime: page.properties.Date.date.start, end_datetime: page.properties.Date.date.end, category: page.properties.Category[:select][:color], url: page.url)
-      @events << @ev
-    end
+    @events = FetchEvents.event_list(@user)
   end
 
   def new
