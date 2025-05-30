@@ -3,8 +3,8 @@
   <div class="position-relative">
     <div style="height: 100vh; background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
       <div class="position-absolute top-50 start-50 translate-middle text-center">
-        <h1 class="display-1 fw-bold mb-4" style="color: #2c3e50;">Calendation</h1>
-        <p class="lead mb-5" style="color: #34495e; font-size: 0.9rem;">
+        <h1 class="display-1 fw-bold mb-4 logo-fade-in" style="color: #2c3e50;">Calendation</h1>
+        <p class="lead mb-5 desc-fade-in" style="color: #34495e; font-size: 0.9rem;">
           予定を、もっとスマートに。<br>
           Notionデータベースをカレンダーとして使おう
         </p>
@@ -58,3 +58,86 @@
 
 <!-- Font Awesome の読み込み -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+<!-- スクロールアニメーション用のスタイル -->
+<style>
+/* ロゴのフェードインアニメーション */
+.logo-fade-in {
+  opacity: 0;
+  animation: fadeIn 0.8s ease-in forwards;
+}
+
+.desc-fade-in {
+  opacity: 0;
+  animation: fadeIn2 1s ease-in forwards;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  100% {
+    opacity: 1; 
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn2 {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1; 
+  }
+}
+
+</style>
+
+<script>
+  // カードのアニメーション
+  const cards = document.querySelectorAll('.card');
+  cards.forEach((card, index) => {
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(30px)';
+  });
+  window.addEventListener('scroll', function() {
+    console.log(window.scrollY);
+    if (window.scrollY > 150) {
+      cards.forEach((card, index) => {
+          card.style.transition = 'all 0.8s ease';
+          card.style.opacity = '1';
+          card.style.transform = 'translateY(0)';
+      });
+    }
+  });
+
+  // ボタンのホバーエフェクト
+  const buttons = document.querySelectorAll('.btn');
+  buttons.forEach(button => {
+    button.addEventListener('mouseenter', function() {
+      this.style.transition = 'all 0.3s ease';
+      this.style.transform = 'scale(1.05)';
+      this.style.boxShadow = '0 4px 15px rgba(0,0,0,0.2)';
+    });
+
+    button.addEventListener('mouseleave', function() {
+      this.style.transform = 'scale(1)';
+      this.style.boxShadow = 'none';
+    });
+  });
+
+  // アイコンの回転アニメーション
+  const icons = document.querySelectorAll('.fas');
+  icons.forEach(icon => {
+    icon.addEventListener('mouseenter', function() {
+      this.style.transition = 'transform 0.5s ease';
+      this.style.transform = 'rotate(360deg)';
+    });
+
+    icon.addEventListener('mouseleave', function() {
+      this.style.transition = 'transform 0.5s ease';
+      this.style.transform = 'rotate(0deg)';
+    });
+  });
+</script>
