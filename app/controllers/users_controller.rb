@@ -15,6 +15,10 @@ class UsersController < ApplicationController
     @events = FetchEvents.event_list(@user)
   end
 
+  def login
+    
+  end
+
   def new
     @user = User.new
   end

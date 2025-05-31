@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   # root "articles#index"
 
   root 'home#index'
+  get 'users/login', to: 'users#login'
 
   resources :users do
     member do
